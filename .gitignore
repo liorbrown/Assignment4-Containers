@@ -4,3 +4,6 @@ MyContainer.o
 .vscode/launch.json
 .vscode/settings.json
 .vscode/tasks.json
+MyContainerTest.o
+.gitignore
+test.out

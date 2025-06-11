@@ -6,14 +6,7 @@
 #include <cmath>
 
 #define ITERATOR_OPERATORS \
-T& operator*() {return *this->iterator;} \
-T* operator->() {return &*this->iterator;} \
-T operator++(int) \
-{ \
-    T temp = *this; \
-    ++*this; \
-    return temp; \
-}
+
 
 using namespace std;
 
@@ -44,49 +37,12 @@ namespace Containers
 
             size_t size() const {return this->data.size();}
 
-            class Order
-            {
-                private:
-                    vector<T>::iterator iterator;
-
-                public:
-                    Order(vector<T>::iterator iterator):
-                        iterator(iterator){}
-
-                    T& operator++(){return *++this->iterator;}
-                    
-                    ITERATOR_OPERATORS
-                    
-                    bool operator==(Order other) const {return (this->iterator == other.iterator);}
-                    bool operator!=(Order other) const {return this->iterator != other.iterator;}
-            };
-
-            class ReverseOrder 
-            {
-                private:
-                     vector<T>::reverse_iterator iterator; 
-
-                public:
-                    ReverseOrder(vector<T>::reverse_iterator iterator):
-                        iterator(iterator){}
-
-                    T& operator++(){return *++this->iterator;}
-
-                    ITERATOR_OPERATORS
-
-                    bool operator==(ReverseOrder other) const 
-                        {return (this->iterator == other.iterator);}
-
-                    bool operator!=(ReverseOrder other) const 
-                        {return (this->iterator != other.iterator);}
-            };
-
             class AscendingOrder
             {
                 private:
                     size_t index;
                     vector<T> sortedData;
-                    vector<T>::iterator iterator;
+                    vector<T>::const_iterator iterator;
 
                 public:
                     AscendingOrder(const vector<T>& rawData):
@@ -94,18 +50,27 @@ namespace Containers
                         index(0)
                     {
                         sort(this->sortedData.begin(), this->sortedData.end());
-                        iterator = this->sortedData.begin();
+                        iterator = this->sortedData.cbegin();
                     }
 
                     AscendingOrder(size_t size):index(size){}
 
-                    T& operator++()
+                    T operator*() {return *this->iterator;}
+
+                    AscendingOrder& operator++()
                     {
                         ++this->index;
-                        return *++this->iterator;
-                    }
+                        ++this->iterator;
 
-                    ITERATOR_OPERATORS
+                        return *this;
+                    }                    
+
+                    AscendingOrder operator++(int)
+                    {
+                        AscendingOrder temp = *this;
+                        ++*this;
+                        return temp;
+                    }
 
                     bool operator==(AscendingOrder other) const 
                     {
@@ -122,7 +87,7 @@ namespace Containers
                 private:
                     size_t index;
                     vector<T> sortedData;
-                    vector<T>::reverse_iterator iterator;
+                    vector<T>::const_reverse_iterator iterator;
 
                 public:
                     DescendingOrder(const vector<T>& rawData):
@@ -130,18 +95,27 @@ namespace Containers
                         index(0)
                     {
                         sort(this->sortedData.begin(), this->sortedData.end());
-                        iterator = this->sortedData.rbegin();
+                        iterator = this->sortedData.crbegin();
                     }
 
                     DescendingOrder(size_t size):index(size){}
 
-                    T& operator++()
+                    T operator*() {return *this->iterator;}
+
+                    DescendingOrder& operator++()
                     {
                         ++this->index;
-                        return *++this->iterator;
+                        ++this->iterator;
+
+                        return *this;
                     }
 
-                    ITERATOR_OPERATORS
+                    DescendingOrder operator++(int)
+                    {
+                        DescendingOrder temp = *this;
+                        ++*this;
+                        return temp;
+                    }
 
                     bool operator==(DescendingOrder other) const 
                     {
@@ -153,57 +127,12 @@ namespace Containers
                         {return !(*this == other);}
             };
 
-            class MiddleOutOrder 
+            class SideCrossOrder
             {
                 private:
                     size_t index;
                     vector<T> sortedData;
-                    vector<T>::iterator iterator;
-
-                public:
-                    MiddleOutOrder(const vector<T>& rawData):index(0)
-                    {
-                        size_t size = rawData.size();
-
-                        float counter = 1.f;
-                        int i = size / 2;
-                        size_t jump = 1;
-
-                        while (counter <= size)
-                        {
-                            this->sortedData.emplace_back(rawData[i]);
-                            i += jump++ * pow(-1.f,counter++);
-                        }
-
-                        iterator = this->sortedData.begin();
-                    }
-
-                    MiddleOutOrder(size_t size):index(size){}
-
-                    T& operator++()
-                    {
-                        ++this->index;
-                        return *++this->iterator;
-                    }
-
-                    ITERATOR_OPERATORS
-
-                    bool operator==(MiddleOutOrder other) const 
-                    {
-                        return (this->index == other.index ||
-                                this->iterator == other.iterator);
-                    }
-
-                    bool operator!=(MiddleOutOrder other) const 
-                        {return !(*this == other);}
-            };
-
-            class SideCrossOrder 
-            {
-                private:
-                    size_t index;
-                    vector<T> sortedData;
-                    vector<T>::iterator iterator;
+                    vector<T>::const_iterator iterator;
 
                 public:
                     SideCrossOrder(vector<T> rawData):index(0)
@@ -222,18 +151,27 @@ namespace Containers
                             i += jump-- * pow(-1.f,counter++);
                         }
 
-                        iterator = this->sortedData.begin();
+                        iterator = this->sortedData.cbegin();
                     }
 
                     SideCrossOrder(size_t size):index(size){}
 
-                    T& operator++()
+                    T operator*() {return *this->iterator;}
+
+                    SideCrossOrder& operator++()
                     {
                         ++this->index;
-                        return *++this->iterator;
+                        ++this->iterator;
+
+                        return *this;
                     }
 
-                    ITERATOR_OPERATORS
+                    SideCrossOrder operator++(int)
+                    {
+                        SideCrossOrder temp = *this;
+                        ++*this;
+                        return temp;
+                    }
 
                     bool operator==(SideCrossOrder other) const 
                     {
@@ -245,11 +183,125 @@ namespace Containers
                         {return !(*this == other);}
             };
 
-            Order begin(){return this->data.begin();}
-            Order end(){return this->data.end();}
+            class ReverseOrder
+            {
+                private:
+                     vector<T>::const_reverse_iterator iterator; 
 
-            ReverseOrder rbegin(){return this->data.rbegin();}
-            ReverseOrder rend(){return this->data.rend();}
+                public:
+                    ReverseOrder(vector<T>::const_reverse_iterator iterator):
+                        iterator(iterator){}
+
+                    T operator*() {return *this->iterator;}
+
+                    ReverseOrder& operator++()
+                    {
+                        ++this->iterator;
+                        return *this;
+                    }
+
+                    ReverseOrder operator++(int)
+                    {
+                        ReverseOrder temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    bool operator==(ReverseOrder other) const 
+                        {return (this->iterator == other.iterator);}
+
+                    bool operator!=(ReverseOrder other) const 
+                        {return (this->iterator != other.iterator);}
+            };
+
+            class Order
+            {
+                private:
+                    vector<T>::const_iterator iterator;
+
+                public:
+                    Order(vector<T>::const_iterator iterator):
+                        iterator(iterator){}
+
+                    T operator*() {return *this->iterator;}
+
+                    Order& operator++()
+                    {
+                        ++this->iterator;
+                        return *this;
+                    }
+                    
+                    Order operator++(int)
+                    {
+                        Order temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    bool operator==(Order other) const {return (this->iterator == other.iterator);}
+                    bool operator!=(Order other) const {return this->iterator != other.iterator;}
+            };          
+
+            class MiddleOutOrder 
+            {
+                private:
+                    size_t index;
+                    vector<T> sortedData;
+                    vector<T>::const_iterator iterator;
+
+                public:
+                    MiddleOutOrder(const vector<T>& rawData):index(0)
+                    {
+                        size_t size = rawData.size();
+
+                        float counter = 1.f;
+                        int i = size / 2;
+                        size_t jump = 1;
+
+                        while (counter <= size)
+                        {
+                            this->sortedData.emplace_back(rawData[i]);
+                            i += jump++ * pow(-1.f,counter++);
+                        }
+
+                        iterator = this->sortedData.cbegin();
+                    }
+
+                    MiddleOutOrder(size_t size):index(size){}
+
+                    T operator*() {return *this->iterator;}
+
+                    MiddleOutOrder& operator++()
+                    {
+                        ++this->index;
+                        ++this->iterator;
+
+                        return *this;
+                    }
+
+                    MiddleOutOrder operator++(int)
+                    {
+                        MiddleOutOrder temp = *this;
+                        ++*this;
+                        return temp;
+                    }
+
+                    bool operator==(MiddleOutOrder other) const 
+                    {
+                        return (this->index == other.index ||
+                                this->iterator == other.iterator);
+                    }
+
+                    bool operator!=(MiddleOutOrder other) const 
+                        {return !(*this == other);}
+            };
+
+            
+            Order cbegin(){return this->data.cbegin();}
+            Order cend(){return this->data.cend();}
+
+            ReverseOrder crbegin(){return this->data.crbegin();}
+            ReverseOrder crend(){return this->data.crend();}
 
             AscendingOrder ascendingBegin(){return this->data;}
             AscendingOrder ascendingEnd(){return this->data.size();}
@@ -270,9 +322,14 @@ namespace Containers
         stream << '[';
         const char* seperator = "";
 
-        for (const CT& item : container)
+        for
+        (
+            auto item = container.cbegin();
+            item != container.cend();
+            ++item
+        )
         {
-            stream << seperator << item;
+            stream << seperator << *item;
             seperator = ",";
         }
             
