@@ -1,0 +1,6 @@
+main.o
+main.out
+MyContainer.o
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
