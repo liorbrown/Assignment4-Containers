@@ -5,9 +5,6 @@
 #include <algorithm>
 #include <cmath>
 
-#define ITERATOR_OPERATORS \
-
-
 using namespace std;
 
 namespace Containers
