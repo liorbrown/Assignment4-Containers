@@ -644,7 +644,10 @@ TEST_SUITE("String container")
                 item != container.ascendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+            {
+                CHECK_EQ(*item, arr[i]);
+                CHECK_EQ(item->size(), arr[i++].size());
+            }
             
             auto item = container.ascendingBegin();
 
@@ -677,7 +680,10 @@ TEST_SUITE("String container")
                 item != container.descendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+            {
+                CHECK_EQ(*item, arr[i]);
+                CHECK_EQ(item->size(), arr[i++].size());
+            }
             
             auto item = container.descendingBegin();
 
@@ -710,7 +716,10 @@ TEST_SUITE("String container")
                 item != container.SideCrossEnd();
                 ++item
             )
-                CHECK_EQ(*item, arrEven[i++]);
+            {
+                CHECK_EQ(*item, arrEven[i]);
+                CHECK_EQ(item->size(), arrEven[i++].size());
+            }
             
             container.remove("Dan");
 
@@ -723,7 +732,10 @@ TEST_SUITE("String container")
                 item != container.SideCrossEnd();
                 ++item
             )
-                CHECK_EQ(*item, arrOdd[i++]);
+            {
+                CHECK_EQ(*item, arrOdd[i]);
+                CHECK_EQ(item->size(), arrOdd[i++].size());
+            }
 
             auto item = container.SideCrossBegin();
 
@@ -756,7 +768,10 @@ TEST_SUITE("String container")
                 item != container.crend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+            {
+                CHECK_EQ(*item, arr[i]);
+                CHECK_EQ(item->size(), arr[i++].size());
+            }
             
             auto item = container.crbegin();
 
@@ -789,7 +804,10 @@ TEST_SUITE("String container")
                 item != container.cend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+            {
+                CHECK_EQ(*item, arr[i]);
+                CHECK_EQ(item->size(), arr[i++].size());
+            }
             
             auto item = container.cbegin();
 
@@ -822,7 +840,10 @@ TEST_SUITE("String container")
                 item != container.MiddleOutEnd();
                 ++item
             )
-                CHECK_EQ(*item, arrEven[i++]);
+            {
+                CHECK_EQ(*item, arrEven[i]);
+                CHECK_EQ(item->size(), arrEven[i++].size());
+            }
             
             container.remove("Dan");
 
@@ -835,7 +856,10 @@ TEST_SUITE("String container")
                 item != container.MiddleOutEnd();
                 ++item
             )
-                CHECK_EQ(*item, arrOdd[i++]);       
+            {
+                CHECK_EQ(*item, arrOdd[i]);
+                CHECK_EQ(item->size(), arrOdd[i++].size());
+            }
             
             auto item = container.MiddleOutBegin();
 
