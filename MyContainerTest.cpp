@@ -7,6 +7,8 @@
 
 using namespace Containers;
 
+/// @brief Init int container with some default values
+/// @param container Container to init
 void initContainer(MyContainer<>& container)
 {
     container.add(5);
@@ -17,6 +19,8 @@ void initContainer(MyContainer<>& container)
     container.add(6);
 }
 
+/// @brief Init double container with some default values
+/// @param container Container to init
 void initContainer(MyContainer<double>& container)
 {
     container.add(5.1);
@@ -27,6 +31,8 @@ void initContainer(MyContainer<double>& container)
     container.add(6.8);
 }
 
+/// @brief Init strings container with some default values
+/// @param container Container to init
 void initContainer(MyContainer<string>& container)
 {
     container.add("Charls");
@@ -62,6 +68,7 @@ TEST_SUITE("Integers containers")
             // Check remove from empty container
             CHECK_THROWS_AS(container.remove(3), invalid_argument);
 
+            // Init container with default values
             initContainer(container);
 
             // Check remove for item that not in the container
@@ -85,6 +92,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using AscendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.ascendingBegin();
@@ -93,24 +102,35 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            int arr[]{-7,3,3,5,6,10};
+            // Set array of expected values order
+            int expected[]{-7,3,3,5,6,10};
             size_t i = 0;
 
+            // Run on all items in container using Ascending iterator
             for
             (
                 auto item = container.ascendingBegin();
                 item != container.ascendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.ascendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 3);
         }
 
@@ -118,6 +138,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using DescendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.descendingBegin();
@@ -126,24 +148,35 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            int arr[]{10,6,5,3,3,-7};
+            // Set array of expected values order
+            int expected[]{10,6,5,3,3,-7};
             size_t i = 0;
 
+            // Run on all items in container using DescendingOrder iterator
             for
             (
                 auto item = container.descendingBegin();
                 item != container.descendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.descendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 10);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 6);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 6);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 5);
         }
 
@@ -151,6 +184,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using SideCrossOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.SideCrossBegin();
@@ -159,37 +194,51 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             int arrEven[]{-7,10,3,6,3,5};
             size_t i = 0;
 
+            // Run on all items in even size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
                 item != container.SideCrossEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i++]);
             
             container.remove(6);
 
+            // Sets array of expected values of odd size container
             int arrOdd[]{-7,10,3,5,3};
             i = 0;
 
+            // Run on all items in odd size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
                 item != container.SideCrossEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i++]);
 
             auto item = container.SideCrossBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 10);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 10);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 3);
         }
 
@@ -197,6 +246,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using ReverseOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.crbegin();
@@ -205,24 +256,35 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            int arr[]{6,3,10,-7,3,5};
+            // Set array of expected values order
+            int expected[]{6,3,10,-7,3,5};
             size_t i = 0;
 
+            // Run on all items in container using ReverseOrder iterator
             for
             (
                 auto item = container.crbegin();
                 item != container.crend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.crbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 6);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 10);
         }
 
@@ -230,6 +292,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using Order iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.cbegin();
@@ -238,24 +302,35 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            int arr[]{5,3,-7,10,3,6};
+            // Set array of expected values order
+            int expected[]{5,3,-7,10,3,6};
             size_t i = 0;
 
+            // Run on all items in container using Order iterator
             for
             (
                 auto item = container.cbegin();
                 item != container.cend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.cbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 5);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, -7);
         }
 
@@ -263,6 +338,8 @@ TEST_SUITE("Integers containers")
         {
             MyContainer container;
 
+            // Run on empty container using MiddleOutOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.MiddleOutBegin();
@@ -271,37 +348,51 @@ TEST_SUITE("Integers containers")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             int arrEven[]{10,-7,3,3,6,5};
             size_t i = 0;
 
+            // Run on all items in even size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
                 item != container.MiddleOutEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i++]);
             
             container.remove(6);
 
+            // Sets array of expected values of odd size container
             int arrOdd[]{-7,3,10,5,3};
             i = 0;
 
+            // Run on all items in odd size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
                 item != container.MiddleOutEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i++]);       
             
             auto item = container.MiddleOutBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 10);
         }
     }
@@ -319,6 +410,7 @@ TEST_SUITE("Double container")
             CHECK_FALSE(container.size());
 
             // Init container - this method checks add() method
+            // Init container with default values
             initContainer(container);              
 
             // Check full container size
@@ -332,6 +424,7 @@ TEST_SUITE("Double container")
             // Check remove from empty container
             CHECK_THROWS_AS(container.remove(3.2), invalid_argument);
 
+            // Init container with default values
             initContainer(container);
 
             // Check remove for item that not in the container
@@ -355,6 +448,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using AscendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.ascendingBegin();
@@ -363,24 +458,35 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            double arr[]{-7.7,3.2,3.2,5.1,6.8,10.4};
+            // Set array of expected values order
+            double expected[]{-7.7,3.2,3.2,5.1,6.8,10.4};
             size_t i = 0;
 
+            // Run on all items in container using AscendingOrder iterator
             for
             (
                 auto item = container.ascendingBegin();
                 item != container.ascendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.ascendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7.7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3.2);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3.2);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 3.2);
         }
 
@@ -388,6 +494,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using DescendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.descendingBegin();
@@ -396,24 +504,35 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            double arr[]{10.4,6.8,5.1,3.2,3.2,-7.7};
+            // Set array of expected values order
+            double expected[]{10.4,6.8,5.1,3.2,3.2,-7.7};
             size_t i = 0;
 
+            // Run on all items in container using DescendingOrder iterator
             for
             (
                 auto item = container.descendingBegin();
                 item != container.descendingEnd();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.descendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 10.4);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 6.8);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 6.8);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 5.1);
         }
 
@@ -421,6 +540,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using SideCrossOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.SideCrossBegin();
@@ -429,37 +550,51 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             double arrEven[]{-7.7,10.4,3.2,6.8,3.2,5.1};
             size_t i = 0;
 
+            // Run on all items in even size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
                 item != container.SideCrossEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i++]);
             
             container.remove(6.8);
 
+            // Sets array of expected values of odd size container
             double arrOdd[]{-7.7,10.4,3.2,5.1,3.2};
             i = 0;
 
+            // Run on all items in odd size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
                 item != container.SideCrossEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i++]);
 
             auto item = container.SideCrossBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7.7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 10.4);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 10.4);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 3.2);
         }
 
@@ -467,6 +602,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using ReverseOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.crbegin();
@@ -475,24 +612,35 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            double arr[]{6.8,3.2,10.4,-7.7,3.2,5.1};
+            // Set array of expected values order
+            double expected[]{6.8,3.2,10.4,-7.7,3.2,5.1};
             size_t i = 0;
 
+            // Run on all items in container using ReverseOrder iterator
             for
             (
                 auto item = container.crbegin();
                 item != container.crend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.crbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 6.8);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3.2);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3.2);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 10.4);
         }
 
@@ -500,6 +648,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using Order iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.cbegin();
@@ -508,24 +658,35 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            double arr[]{5.1,3.2,-7.7,10.4,3.2,6.8};
+            // Set array of expected values order
+            double expected[]{5.1,3.2,-7.7,10.4,3.2,6.8};
             size_t i = 0;
 
+            // Run on all items in container using Order iterator
             for
             (
                 auto item = container.cbegin();
                 item != container.cend();
                 ++item
             )
-                CHECK_EQ(*item, arr[i++]);
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i++]);
             
             auto item = container.cbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, 5.1);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3.2);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3.2);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, -7.7);
         }
 
@@ -533,6 +694,8 @@ TEST_SUITE("Double container")
         {
             MyContainer<double> container;
 
+            // Run on empty container using AscendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.MiddleOutBegin();
@@ -541,37 +704,51 @@ TEST_SUITE("Double container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             double arrEven[]{10.4,-7.7,3.2,3.2,6.8,5.1};
             size_t i = 0;
 
+            // Run on all items in even size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
                 item != container.MiddleOutEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i++]);
             
             container.remove(6.8);
 
+            // Sets array of expected values of odd size container
             double arrOdd[]{-7.7,3.2,10.4,5.1,3.2};
             i = 0;
 
+            // Run on all items in odd size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
                 item != container.MiddleOutEnd();
                 ++item
             )
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i++]);       
             
             auto item = container.MiddleOutBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, -7.7);
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, 3.2);
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, 3.2);
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, 10.4);
         }
     }
@@ -589,6 +766,7 @@ TEST_SUITE("String container")
             CHECK_FALSE(container.size());
 
             // Init container - this method checks add() method
+            // Init container with default values
             initContainer(container);              
 
             // Check full container size
@@ -602,6 +780,7 @@ TEST_SUITE("String container")
             // Check remove from empty container
             CHECK_THROWS_AS(container.remove("Bob"), invalid_argument);
 
+            // Init container with default values
             initContainer(container);
 
             // Check remove for item that not in the container
@@ -625,6 +804,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using AscendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.ascendingBegin();
@@ -633,11 +814,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            string arr[]{"Alice","Bob","Bob","Charls","Dan","Eli"};
+            // Set array of expected values order
+            string expected[]{"Alice","Bob","Bob","Charls","Dan","Eli"};
             size_t i = 0;
 
+            // Run on all items in container using AscendingOrder iterator
             for
             (
                 auto item = container.ascendingBegin();
@@ -645,15 +829,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
-                CHECK_EQ(*item, arr[i]);
-                CHECK_EQ(item->size(), arr[i++].size());
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i]);
+
+                // Checks -> operator by equals strings size()
+                CHECK_EQ(item->size(), expected[i++].size());
             }
             
             auto item = container.ascendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Alice");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Bob");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Bob");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Bob");
         }
 
@@ -661,6 +855,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using DescendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.descendingBegin();
@@ -669,11 +865,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            string arr[]{"Eli","Dan","Charls","Bob","Bob","Alice"};
+            // Set array of expected values order
+            string expected[]{"Eli","Dan","Charls","Bob","Bob","Alice"};
             size_t i = 0;
 
+            // Run on all items in container using DescendingOrder iterator
             for
             (
                 auto item = container.descendingBegin();
@@ -681,15 +880,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
-                CHECK_EQ(*item, arr[i]);
-                CHECK_EQ(item->size(), arr[i++].size());
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i]);
+
+                // Checks -> operator by equals strings size()
+                CHECK_EQ(item->size(), expected[i++].size());
             }
             
             auto item = container.descendingBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Eli");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Dan");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Dan");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Charls");
         }
 
@@ -697,6 +906,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using SideCrossOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.SideCrossBegin();
@@ -705,11 +916,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             string arrEven[]{"Alice","Eli","Bob","Dan","Bob","Charls"};
             size_t i = 0;
 
+            // Run on all items in even size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
@@ -717,15 +931,20 @@ TEST_SUITE("String container")
                 ++item
             )
             {
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i]);
+
+                // Checks -> operator by equals strings size()
                 CHECK_EQ(item->size(), arrEven[i++].size());
             }
             
             container.remove("Dan");
 
+            // Sets array of expected values of odd size container
             string arrOdd[]{"Alice","Eli","Bob","Charls","Bob"};
             i = 0;
 
+            // Run on all items in odd size container using SideCrossOrder iterator
             for
             (
                 auto item = container.SideCrossBegin();
@@ -733,15 +952,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i]);
+
+                // Checks -> operator by equals strings size()
                 CHECK_EQ(item->size(), arrOdd[i++].size());
             }
 
             auto item = container.SideCrossBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Alice");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Eli");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Eli");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Bob");
         }
 
@@ -749,6 +978,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using ReverseOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.crbegin();
@@ -757,11 +988,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            string arr[]{"Dan","Bob","Eli","Alice","Bob","Charls"};
+            // Set array of expected values order
+            string expected[]{"Dan","Bob","Eli","Alice","Bob","Charls"};
             size_t i = 0;
 
+            // Run on all items in container using ReverseOrder iterator
             for
             (
                 auto item = container.crbegin();
@@ -769,15 +1003,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
-                CHECK_EQ(*item, arr[i]);
-                CHECK_EQ(item->size(), arr[i++].size());
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i]);
+
+                // Checks -> operator by equals strings size()
+                CHECK_EQ(item->size(), expected[i++].size());
             }
             
             auto item = container.crbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Dan");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Bob");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Bob");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Eli");
         }
 
@@ -785,6 +1029,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using Order iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.cbegin();
@@ -793,11 +1039,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
-            string arr[]{"Charls","Bob","Alice","Eli","Bob","Dan"};
+            // Set array of expected values order
+            string expected[]{"Charls","Bob","Alice","Eli","Bob","Dan"};
             size_t i = 0;
 
+            // Run on all items in container using Order iterator
             for
             (
                 auto item = container.cbegin();
@@ -805,15 +1054,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
-                CHECK_EQ(*item, arr[i]);
-                CHECK_EQ(item->size(), arr[i++].size());
+                // Equals current item with expected item
+                CHECK_EQ(*item, expected[i]);
+
+                // Checks -> operator by equals strings size()
+                CHECK_EQ(item->size(), expected[i++].size());
             }
             
             auto item = container.cbegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Charls");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Bob");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Bob");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Alice");
         }
 
@@ -821,6 +1080,8 @@ TEST_SUITE("String container")
         {
             MyContainer<string> container;
 
+            // Run on empty container using AscendingOrder iterator,
+            // and ensure its not throws and not get into loop
             for
             (
                 auto item = container.MiddleOutBegin();
@@ -829,11 +1090,14 @@ TEST_SUITE("String container")
             ) 
                 CHECK(false);
 
+            // Init container with default values
             initContainer(container);
 
+            // Sets array of expected values of even size container
             string arrEven[]{"Eli","Alice","Bob","Bob","Dan","Charls"};
             size_t i = 0;
 
+            // Run on all items in even size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
@@ -841,15 +1105,20 @@ TEST_SUITE("String container")
                 ++item
             )
             {
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrEven[i]);
+
+                // Checks -> operator by equals strings size()
                 CHECK_EQ(item->size(), arrEven[i++].size());
             }
             
             container.remove("Dan");
 
+            // Sets array of expected values of odd size container
             string arrOdd[]{"Alice","Bob","Eli","Charls","Bob"};
             i = 0;
 
+            // Run on all items in odd size container using MiddleOutOrder iterator
             for
             (
                 auto item = container.MiddleOutBegin();
@@ -857,15 +1126,25 @@ TEST_SUITE("String container")
                 ++item
             )
             {
+                // Equals current item with expected item
                 CHECK_EQ(*item, arrOdd[i]);
+
+                // Checks -> operator by equals strings size()
                 CHECK_EQ(item->size(), arrOdd[i++].size());
             }
             
             auto item = container.MiddleOutBegin();
 
+            // Check value of first item
             CHECK_EQ(*item, "Alice");
+
+            // Ensure that ++item operator returns value after forwarding
             CHECK_EQ(*++item, "Bob");
+
+            // Ensure that item++ operator returns value before forwarding
             CHECK_EQ(*item++, "Bob");
+
+            // Ensure that item++ operator forward the iterator 
             CHECK_EQ(*item, "Eli");
         }
     }
